@@ -7,7 +7,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestStackPush(t *testing.T) {
+func TestStackImplementsLastInFirstOut(t *testing.T) {
 	stack := Stack{}
 
 	stack.Push(1)
@@ -17,10 +17,6 @@ func TestStackPush(t *testing.T) {
 	stack.Push(2)
 
 	assert.Equal(t, []int{1, 2}, stack.items)
-}
-
-func TestStackPop(t *testing.T) {
-	stack := Stack{items: []int{1, 2}}
 
 	item, _ := stack.Pop()
 

@@ -14,7 +14,8 @@ func (stack *Stack) Pop() (int, error) {
 	if len(stack.items) == 0 {
 		return -1, errors.New("stack is empty")
 	}
-	poppedItem := stack.items[len(stack.items)-1]
-	stack.items = stack.items[:len(stack.items)-1]
+	lastIdx := len(stack.items) - 1
+	poppedItem := stack.items[lastIdx]
+	stack.items = stack.items[:lastIdx]
 	return poppedItem, nil
 }
