@@ -7,7 +7,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestMaxHeapPeak(t *testing.T) {
+func TestMaxHeapPeakReturnsRootNode(t *testing.T) {
 	mh := MaxHeap{[]int{15, 10}}
 
 	root, _ := mh.Peak()
@@ -15,7 +15,7 @@ func TestMaxHeapPeak(t *testing.T) {
 	assert.Equal(t, 15, root)
 }
 
-func TestMaxHeapPeakErrors(t *testing.T) {
+func TestMaxHeapPeakErrorsWhenHeapEmpty(t *testing.T) {
 	mh := MaxHeap{}
 
 	root, err := mh.Peak()
@@ -46,7 +46,7 @@ func TestMaxHeapInsert(t *testing.T) {
 	assert.Equal(t, mh.data, []int{25, 17, 20, 10, 15, 5})
 }
 
-func TestMaxHeapExtract(t *testing.T) {
+func TestMaxHeapExtractRemovesRootNode(t *testing.T) {
 	mh := MaxHeap{[]int{20, 15, 10, 5, 12}}
 
 	previous_root, _ := mh.Extract()
@@ -73,7 +73,7 @@ func TestMaxHeapExtract(t *testing.T) {
 	assert.Equal(t, []int{}, mh.data)
 }
 
-func TestMaxHeapExtractErrors(t *testing.T) {
+func TestMaxHeapExtractErrorsWhenHeapEmpty(t *testing.T) {
 	mh := MaxHeap{}
 
 	previous_root, err := mh.Extract()

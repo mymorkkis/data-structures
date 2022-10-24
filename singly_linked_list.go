@@ -1,7 +1,8 @@
 package main
 
 import (
-	"fmt"
+	"strconv"
+	"strings"
 )
 
 type node struct {
@@ -9,12 +10,14 @@ type node struct {
 	nextNode *node
 }
 
-type linkedList struct {
+// A LinkedList is a structure of nodes linked using pointers.
+type LinkedList struct {
 	head   *node
 	length uint
 }
 
-func (ll *linkedList) prepend(node *node) {
+// Prepend sets a new node at the head of the LinkedList.
+func (ll *LinkedList) Prepend(node *node) {
 	if ll.head != nil {
 		node.nextNode = ll.head
 	}
@@ -22,7 +25,8 @@ func (ll *linkedList) prepend(node *node) {
 	ll.length++
 }
 
-func (ll *linkedList) deleteValue(value int) {
+// DeleteValue will remove any nodes with the given value from the LinkedList.
+func (ll *LinkedList) DeleteValue(value int) {
 	if ll.length == 0 {
 		return
 	}
@@ -50,21 +54,19 @@ func (ll *linkedList) deleteValue(value int) {
 	}
 }
 
-func (ll linkedList) displayValues() string {
-	values := ""
-
+// String will return any values in the LinkedList in a comma seperated string.
+func (ll LinkedList) String() string {
 	if ll.head == nil {
-		return values
+		return ""
 	}
+
+	var values []string
 
 	node := ll.head
 	for node != nil {
-		values += fmt.Sprintf("%d", node.data)
+		values = append(values, strconv.Itoa(node.data))
 		node = node.nextNode
-		if node != nil {
-			values += fmt.Sprint(", ")
-		}
 	}
 
-	return values
+	return strings.Join(values, ", ")
 }

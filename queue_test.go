@@ -8,31 +8,31 @@ import (
 )
 
 func TestQueueImplementsFirstInFirstOut(t *testing.T) {
-	queue := Queue{}
+	q := Queue{}
 
-	queue.Enqueue(1)
+	q.Enqueue(1)
 
-	assert.Equal(t, []int{1}, queue.items)
+	assert.Equal(t, []int{1}, q.items)
 
-	queue.Enqueue(2)
+	q.Enqueue(2)
 
-	assert.Equal(t, []int{1, 2}, queue.items)
+	assert.Equal(t, []int{1, 2}, q.items)
 
-	item, _ := queue.Dequeue()
+	item, _ := q.Dequeue()
 
 	assert.Equal(t, 1, item)
-	assert.Equal(t, []int{2}, queue.items)
+	assert.Equal(t, []int{2}, q.items)
 
-	item, _ = queue.Dequeue()
+	item, _ = q.Dequeue()
 
 	assert.Equal(t, 2, item)
-	assert.Equal(t, []int{}, queue.items)
+	assert.Equal(t, []int{}, q.items)
 }
 
 func TestQueueDequeueErrorsWhenQueueEmpty(t *testing.T) {
-	queue := Queue{}
+	q := Queue{}
 
-	item, err := queue.Dequeue()
+	item, err := q.Dequeue()
 
 	assert.Equal(t, -1, item)
 	assert.Equal(t, errors.New("queue is empty"), err)

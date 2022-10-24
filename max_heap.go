@@ -4,79 +4,84 @@ import (
 	"errors"
 )
 
+// A MaxHeap is a structure that stores elements in descending priority.
 type MaxHeap struct {
 	data []int
 }
 
-func (heap MaxHeap) Peak() (int, error) {
-	if len(heap.data) == 0 {
+// Peak returns the root node of the MaxHeap or an error if the heap is empty.
+func (mh MaxHeap) Peak() (int, error) {
+	if len(mh.data) == 0 {
 		return -1, errors.New("heap is empty")
 	}
-	return heap.data[0], nil
+	return mh.data[0], nil
 }
 
-func (heap *MaxHeap) Insert(key int) {
-	heap.data = append(heap.data, key)
-	heap.maxHeapifyUp(len(heap.data) - 1)
+// Insert inserts the given item into the MaxHeap and heapifys the heap into descending priority.
+func (mh *MaxHeap) Insert(item int) {
+	mh.data = append(mh.data, item)
+	mh.maxHeapifyUp(len(mh.data) - 1)
 }
 
-func (heap *MaxHeap) Extract() (int, error) {
-	if len(heap.data) == 0 {
+// Extract removes the root node from the MaxHeap and then heapifys the heap into descending priority.
+// An error is returned if the heap is empty.
+func (mh *MaxHeap) Extract() (int, error) {
+	if len(mh.data) == 0 {
 		return -1, errors.New("heap is empty")
 	}
 
-	head := heap.data[0]
+	root := mh.data[0]
 
-	if len(heap.data) == 1 {
-		heap.data = []int{}
+	if len(mh.data) == 1 {
+		mh.data = []int{}
 	} else {
-		lastIdx := len(heap.data) - 1
-		heap.data = append([]int{heap.data[lastIdx]}, heap.data[1:lastIdx]...)
-		heap.maxHeapifyDown()
+		lastIdx := len(mh.data) - 1
+		mh.data = append([]int{mh.data[lastIdx]}, mh.data[1:lastIdx]...)
+		mh.maxHeapifyDown()
 	}
 
-	return head, nil
+	return root, nil
 }
 
-func (heap *MaxHeap) maxHeapifyUp(currentIdx int) {
-	for heap.data[parentIdx(currentIdx)] < heap.data[currentIdx] {
-		heap.swapValues(currentIdx, parentIdx(currentIdx))
+func (mh *MaxHeap) maxHeapifyUp(currentIdx int) {
+	for mh.data[parentIdx(currentIdx)] < mh.data[currentIdx] {
+		mh.swapValues(currentIdx, parentIdx(currentIdx))
 		currentIdx = parentIdx(currentIdx)
 	}
 }
 
-func (heap *MaxHeap) maxHeapifyDown() {
+func (mh *MaxHeap) maxHeapifyDown() {
 	parentIdx := 0
-	for heap.parentSmallerThanChild(parentIdx) {
+	for mh.parentSmallerThanChild(parentIdx) {
 		lcIdx, rcIdx := leftChildIdx(parentIdx), rightChildIdx(parentIdx)
-		if heap.data[lcIdx] > heap.data[rcIdx] {
-			heap.swapValues(parentIdx, lcIdx)
+		if mh.data[lcIdx] > mh.data[rcIdx] {
+			mh.swapValues(parentIdx, lcIdx)
 			parentIdx = lcIdx
 		} else {
-			heap.swapValues(parentIdx, rcIdx)
+			mh.swapValues(parentIdx, rcIdx)
 			parentIdx = rcIdx
 		}
 	}
 }
 
-func (heap *MaxHeap) swapValues(idx1, idx2 int) {
-	heap.data[idx1], heap.data[idx2] = heap.data[idx2], heap.data[idx1]
+func (mh *MaxHeap) swapValues(idx1, idx2 int) {
+	mh.data[idx1], mh.data[idx2] = mh.data[idx2], mh.data[idx1]
 }
 
-func (heap *MaxHeap) parentSmallerThanChild(parentIdx int) bool {
-	parent := heap.data[parentIdx]
+func (mh *MaxHeap) parentSmallerThanChild(parentIdx int) bool {
+	parent := mh.data[parentIdx]
 	lcIdx, rcIdx := leftChildIdx(parentIdx), rightChildIdx(parentIdx)
-	if heap.childExists(lcIdx) && parent < heap.data[lcIdx] {
+	if mh.childExists(lcIdx) && parent < mh.data[lcIdx] {
 		return true
 	}
-	if heap.childExists(rcIdx) && parent < heap.data[rcIdx] {
+	if mh.childExists(rcIdx) && parent < mh.data[rcIdx] {
 		return true
 	}
 	return false
 }
 
-func (heap *MaxHeap) childExists(idx int) bool {
-	return idx <= len(heap.data)-1
+func (mh *MaxHeap) childExists(idx int) bool {
+	return idx <= len(mh.data)-1
 }
 
 func leftChildIdx(idx int) int {
