@@ -8,7 +8,7 @@ import (
 )
 
 func TestMaxHeapPeakReturnsRootNode(t *testing.T) {
-	mh := MaxHeap{[]int{15, 10}}
+	mh := MaxHeap[int]{[]int{15, 10}}
 
 	root, _ := mh.Peak()
 
@@ -16,18 +16,18 @@ func TestMaxHeapPeakReturnsRootNode(t *testing.T) {
 }
 
 func TestMaxHeapPeakErrorsWhenHeapEmpty(t *testing.T) {
-	mh := MaxHeap{}
+	mh := MaxHeap[int]{}
 
 	root, err := mh.Peak()
 
-	assert.Equal(t, -1, root)
+	assert.Empty(t, root)
 	if assert.Error(t, err) {
 		assert.Equal(t, errors.New("heap is empty"), err)
 	}
 }
 
 func TestMaxHeapInsert(t *testing.T) {
-	mh := MaxHeap{[]int{15, 10}}
+	mh := MaxHeap[int]{[]int{15, 10}}
 
 	mh.Insert(5)
 
@@ -47,7 +47,7 @@ func TestMaxHeapInsert(t *testing.T) {
 }
 
 func TestMaxHeapExtractRemovesRootNode(t *testing.T) {
-	mh := MaxHeap{[]int{20, 15, 10, 5, 12}}
+	mh := MaxHeap[int]{[]int{20, 15, 10, 5, 12}}
 
 	previous_root, _ := mh.Extract()
 
@@ -74,12 +74,50 @@ func TestMaxHeapExtractRemovesRootNode(t *testing.T) {
 }
 
 func TestMaxHeapExtractErrorsWhenHeapEmpty(t *testing.T) {
-	mh := MaxHeap{}
+	mh := MaxHeap[int]{}
 
-	previous_root, err := mh.Extract()
+	previousRoot, err := mh.Extract()
 
-	assert.Equal(t, previous_root, -1)
+	assert.Empty(t, previousRoot)
 	if assert.Error(t, err) {
 		assert.Equal(t, errors.New("heap is empty"), err)
 	}
+}
+
+func TestMaxHeapCanStoreStrings(t *testing.T) {
+	mh := MaxHeap[string]{}
+	mh.Insert("second")
+	mh.Insert("first")
+
+	root, _ := mh.Peak()
+	assert.Equal(t, "second", root)
+
+	previousRoot, _ := mh.Extract()
+	assert.Equal(t, "second", previousRoot)
+
+	previousRoot, _ = mh.Extract()
+	assert.Equal(t, "first", previousRoot)
+
+	emptyValue, err := mh.Extract()
+	assert.Empty(t, emptyValue)
+	assert.NotNil(t, err)
+}
+
+func TestMaxHeapCanStoreFloats(t *testing.T) {
+	mh := MaxHeap[float64]{}
+	mh.Insert(2.4)
+	mh.Insert(1.2)
+
+	root, _ := mh.Peak()
+	assert.Equal(t, 2.4, root)
+
+	previousRoot, _ := mh.Extract()
+	assert.Equal(t, 2.4, previousRoot)
+
+	previousRoot, _ = mh.Extract()
+	assert.Equal(t, 1.2, previousRoot)
+
+	emptyValue, err := mh.Extract()
+	assert.Empty(t, emptyValue)
+	assert.NotNil(t, err)
 }
