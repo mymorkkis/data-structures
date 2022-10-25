@@ -14,8 +14,8 @@ type MaxHeap[T constraints.Ordered] struct {
 // Peak returns the root node of the MaxHeap or an error if the heap is empty.
 func (mh MaxHeap[T]) Peak() (T, error) {
 	if len(mh.data) == 0 {
-		var emptyResult T
-		return emptyResult, errors.New("heap is empty")
+		var emptyValue T
+		return emptyValue, errors.New("heap is empty")
 	}
 	return mh.data[0], nil
 }
@@ -30,8 +30,8 @@ func (mh *MaxHeap[T]) Insert(item T) {
 // An error is returned if the heap is empty.
 func (mh *MaxHeap[T]) Extract() (T, error) {
 	if len(mh.data) == 0 {
-		var emptyResult T
-		return emptyResult, errors.New("heap is empty")
+		var emptyValue T
+		return emptyValue, errors.New("heap is empty")
 	}
 
 	root := mh.data[0]

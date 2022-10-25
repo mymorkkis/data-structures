@@ -21,9 +21,7 @@ func TestMaxHeapPeakErrorsWhenHeapEmpty(t *testing.T) {
 	root, err := mh.Peak()
 
 	assert.Empty(t, root)
-	if assert.Error(t, err) {
-		assert.Equal(t, errors.New("heap is empty"), err)
-	}
+	assert.Equal(t, errors.New("heap is empty"), err)
 }
 
 func TestMaxHeapInsert(t *testing.T) {
@@ -79,9 +77,7 @@ func TestMaxHeapExtractErrorsWhenHeapEmpty(t *testing.T) {
 	previousRoot, err := mh.Extract()
 
 	assert.Empty(t, previousRoot)
-	if assert.Error(t, err) {
-		assert.Equal(t, errors.New("heap is empty"), err)
-	}
+	assert.Equal(t, errors.New("heap is empty"), err)
 }
 
 func TestMaxHeapCanStoreStrings(t *testing.T) {
