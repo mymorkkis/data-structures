@@ -8,7 +8,7 @@ import (
 )
 
 func TestStackImplementsLastInFirstOut(t *testing.T) {
-	s := Stack{}
+	s := Stack[int]{}
 
 	s.Push(1)
 
@@ -30,10 +30,10 @@ func TestStackImplementsLastInFirstOut(t *testing.T) {
 }
 
 func TestStackPopErrorsWhenStackEmpty(t *testing.T) {
-	s := Stack{}
+	s := Stack[int]{}
 
 	item, err := s.Pop()
 
-	assert.Equal(t, -1, item)
+	assert.Empty(t, item)
 	assert.Equal(t, errors.New("stack is empty"), err)
 }
