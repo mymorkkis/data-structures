@@ -55,7 +55,7 @@ func (ll *LinkedList) DeleteValue(value int) {
 }
 
 // String will return any values in the LinkedList in a comma seperated string.
-func (ll LinkedList) String() string {
+func (ll *LinkedList) String() string {
 	if ll.head == nil {
 		return ""
 	}

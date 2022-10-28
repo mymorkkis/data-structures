@@ -12,7 +12,7 @@ type MaxHeap[T constraints.Ordered] struct {
 }
 
 // Peak returns the root node of the MaxHeap or an error if the heap is empty.
-func (mh MaxHeap[T]) Peak() (T, error) {
+func (mh *MaxHeap[T]) Peak() (T, error) {
 	if len(mh.data) == 0 {
 		var emptyValue T
 		return emptyValue, errors.New("heap is empty")
