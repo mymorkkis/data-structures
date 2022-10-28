@@ -1,16 +1,23 @@
 package main
 
-type TreeNode struct {
-	key        int
-	leftChild  *TreeNode
-	rightChild *TreeNode
+import "golang.org/x/exp/constraints"
+
+// A TreeNode is a node in a BinarySearchTree
+type TreeNode[T constraints.Ordered] struct {
+	key        T
+	leftChild  *TreeNode[T]
+	rightChild *TreeNode[T]
 }
 
-type BinarySearchTree struct {
-	root *TreeNode
+// A BinarySearchTree is an ordered structure of pointer linked nodes
+// Nodes with higher value keys are placed to the right of the parent
+// Nodes with lower value keys are placed to the left of the parent
+type BinarySearchTree[T constraints.Ordered] struct {
+	root *TreeNode[T]
 }
 
-func (bt *BinarySearchTree) Insert(node TreeNode) {
+// Insert inserts the given node as a leaf node
+func (bt *BinarySearchTree[T]) Insert(node TreeNode[T]) {
 	if bt.root == nil {
 		bt.root = &node
 		return
@@ -37,7 +44,8 @@ func (bt *BinarySearchTree) Insert(node TreeNode) {
 	}
 }
 
-func (bt *BinarySearchTree) Search(key int) bool {
+// Search returns whether the given key is found in the BinarySearchTree
+func (bt *BinarySearchTree[T]) Search(key T) bool {
 	if bt.root == nil {
 		return false
 	}
