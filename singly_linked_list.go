@@ -1,46 +1,44 @@
 package main
 
-import (
-	"strconv"
-	"strings"
-)
-
-type node struct {
-	data     int
-	nextNode *node
+type node[T comparable] struct {
+	value    T
+	nextNode *node[T]
 }
 
-// A LinkedList is a structure of nodes linked using pointers.
-type LinkedList struct {
-	head   *node
+// A SinglyLinkedList is a structure of nodes linked using pointers.
+type SinglyLinkedList[T comparable] struct {
+	head   *node[T]
 	length uint
 }
 
 // Prepend sets a new node at the head of the LinkedList.
-func (ll *LinkedList) Prepend(node *node) {
+func (ll *SinglyLinkedList[T]) Prepend(value T) {
+	node := &node[T]{value: value}
+
 	if ll.head != nil {
 		node.nextNode = ll.head
 	}
+
 	ll.head = node
 	ll.length++
 }
 
 // DeleteValue will remove any nodes with the given value from the LinkedList.
-func (ll *LinkedList) DeleteValue(value int) {
+func (ll *SinglyLinkedList[T]) DeleteValue(value T) {
 	if ll.length == 0 {
 		return
 	}
 
 	node := ll.head
 
-	if node.data == value {
+	if node.value == value {
 		// remove head node
 		ll.length--
 		ll.head = node.nextNode
 	}
 
 	for node.nextNode != nil {
-		if node.nextNode.data == value {
+		if node.nextNode.value == value {
 			ll.length--
 			if node.nextNode.nextNode == nil {
 				// remove tail node
@@ -52,21 +50,4 @@ func (ll *LinkedList) DeleteValue(value int) {
 		}
 		node = node.nextNode
 	}
-}
-
-// String will return any values in the LinkedList in a comma seperated string.
-func (ll *LinkedList) String() string {
-	if ll.head == nil {
-		return ""
-	}
-
-	var values []string
-
-	node := ll.head
-	for node != nil {
-		values = append(values, strconv.Itoa(node.data))
-		node = node.nextNode
-	}
-
-	return strings.Join(values, ", ")
 }
