@@ -11,7 +11,7 @@ type SinglyLinkedList[T comparable] struct {
 	length uint
 }
 
-// Prepend sets a new node at the head of the LinkedList.
+// Prepend sets a new node at the head of the SinglyLinkedList.
 func (ll *SinglyLinkedList[T]) Prepend(value T) {
 	node := &node[T]{value: value}
 
@@ -23,8 +23,8 @@ func (ll *SinglyLinkedList[T]) Prepend(value T) {
 	ll.length++
 }
 
-// DeleteValue will remove any nodes with the given value from the LinkedList.
-func (ll *SinglyLinkedList[T]) DeleteValue(value T) {
+// Delete will remove any nodes with the given value from the SinglyLinkedList.
+func (ll *SinglyLinkedList[T]) Delete(value T) {
 	if ll.length == 0 {
 		return
 	}
@@ -50,4 +50,14 @@ func (ll *SinglyLinkedList[T]) DeleteValue(value T) {
 		}
 		node = node.nextNode
 	}
+}
+
+func (ll *SinglyLinkedList[T]) Search(value T) bool {
+	for node := ll.head; node != nil; {
+		if node.value == value {
+			return true
+		}
+		node = node.nextNode
+	}
+	return false
 }
