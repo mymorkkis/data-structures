@@ -11,28 +11,42 @@ func TestStackImplementsLastInFirstOut(t *testing.T) {
 	s := Stack[int]{}
 
 	s.Push(1)
+	assert.Equal(t, 1, s.Length)
 
-	assert.Equal(t, []int{1}, s.items)
+	head, _ := s.Peek()
+	assert.Equal(t, 1, head)
 
 	s.Push(2)
+	assert.Equal(t, 2, s.Length)
 
-	assert.Equal(t, []int{1, 2}, s.items)
+	head, _ = s.Peek()
+	assert.Equal(t, 2, head)
 
 	item, _ := s.Pop()
-
 	assert.Equal(t, 2, item)
-	assert.Equal(t, []int{1}, s.items)
+	assert.Equal(t, 1, s.Length)
+
+	head, _ = s.Peek()
+	assert.Equal(t, 1, head)
 
 	item, _ = s.Pop()
-
 	assert.Equal(t, 1, item)
-	assert.Equal(t, []int{}, s.items)
+	assert.Equal(t, 0, s.Length)
 }
 
 func TestStackPopErrorsWhenStackEmpty(t *testing.T) {
 	s := Stack[int]{}
 
 	item, err := s.Pop()
+
+	assert.Empty(t, item)
+	assert.Equal(t, errors.New("stack is empty"), err)
+}
+
+func TestStackPeekErrorsWhenStackEmpty(t *testing.T) {
+	s := Stack[int]{}
+
+	item, err := s.Peek()
 
 	assert.Empty(t, item)
 	assert.Equal(t, errors.New("stack is empty"), err)
